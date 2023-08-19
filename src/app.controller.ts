@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body,  HttpException, HttpStatus, HttpCode, Query  } from '@nestjs/common';
+import { Controller, Get, Post, Body,  HttpException, HttpStatus, HttpCode, Query, Param  } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SignupDTO } from './dto/signup.dto';
 import { TweetDTO } from './dto/tweet.dto';
@@ -49,6 +49,15 @@ export class AppController {
     const endIndex = page ? startIndex + tweetsPerPage : undefined;
 
     return this.appService.getTweets(startIndex, endIndex);
+  }
+
+  @Get('/tweets/:username')
+  getUserTweets(@Param('username') username: string): Tweet[] {
+    const tweets = this.appService.getUserTweets(username);
+    if (!tweets) {
+      throw new HttpException('User not found or has no tweets.', HttpStatus.NOT_FOUND);
+    }
+    return tweets;
   }
 
 }

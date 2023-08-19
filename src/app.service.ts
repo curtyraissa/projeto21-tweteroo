@@ -49,4 +49,16 @@ export class AppService {
 
     return completeTweets;
   }
+
+  getUserTweets(username: string): Tweet[] {
+    const userTweets = this.tweets.filter((tweet) => tweet.username === username);
+    if (userTweets.length === 0) {
+      return [];
+    }
+    const user = this.users.find((u) => u.username === username);
+    const completeTweets = userTweets.map((tweet) => {
+      return { ...tweet, avatar: user?.avatar };
+    });
+    return completeTweets;
+  }
 }

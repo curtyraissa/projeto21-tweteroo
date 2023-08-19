@@ -54,6 +54,13 @@ let AppController = exports.AppController = class AppController {
         const endIndex = page ? startIndex + tweetsPerPage : undefined;
         return this.appService.getTweets(startIndex, endIndex);
     }
+    getUserTweets(username) {
+        const tweets = this.appService.getUserTweets(username);
+        if (!tweets) {
+            throw new common_1.HttpException('User not found or has no tweets.', common_1.HttpStatus.NOT_FOUND);
+        }
+        return tweets;
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -84,6 +91,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Array)
 ], AppController.prototype, "getTweets", null);
+__decorate([
+    (0, common_1.Get)('/tweets/:username'),
+    __param(0, (0, common_1.Param)('username')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Array)
+], AppController.prototype, "getUserTweets", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

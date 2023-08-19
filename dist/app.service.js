@@ -52,6 +52,17 @@ let AppService = exports.AppService = class AppService {
         });
         return completeTweets;
     }
+    getUserTweets(username) {
+        const userTweets = this.tweets.filter((tweet) => tweet.username === username);
+        if (userTweets.length === 0) {
+            return [];
+        }
+        const user = this.users.find((u) => u.username === username);
+        const completeTweets = userTweets.map((tweet) => {
+            return { ...tweet, avatar: user?.avatar };
+        });
+        return completeTweets;
+    }
 };
 exports.AppService = AppService = __decorate([
     (0, common_1.Injectable)()

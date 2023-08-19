@@ -7,4 +7,5 @@ export declare class AppService {
     authenticate(username: string, avatar: string): boolean;
     createTweet(username: string, tweet: string): void;
     getTweets(startIndex: number, endIndex?: number): Tweet[];
+    getUserTweets(username: string): Tweet[];
 }

@@ -13,4 +13,5 @@ export declare class AppController {
         message: string;
     };
     getTweets(page?: number): Tweet[];
+    getUserTweets(username: string): Tweet[];
 }
