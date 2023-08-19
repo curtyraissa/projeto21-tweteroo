@@ -16,6 +16,7 @@ exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
 const signup_dto_1 = require("./dto/signup.dto");
+const tweet_dto_1 = require("./dto/tweet.dto");
 let AppController = exports.AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -29,6 +30,18 @@ let AppController = exports.AppController = class AppController {
             return { message: 'OK' };
         }
         catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
+        }
+    }
+    createTweet(tweetDto) {
+        try {
+            this.appService.createTweet(tweetDto.username, tweetDto.tweet);
+            return { message: 'OK' };
+        }
+        catch (error) {
+            if (error.message === 'UNAUTHORIZED') {
+                throw new common_1.HttpException('UNAUTHORIZED', common_1.HttpStatus.UNAUTHORIZED);
+            }
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
         }
     }
@@ -47,6 +60,14 @@ __decorate([
     __metadata("design:paramtypes", [signup_dto_1.SignupDTO]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "signUp", null);
+__decorate([
+    (0, common_1.Post)('/tweets'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [tweet_dto_1.TweetDTO]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "createTweet", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
