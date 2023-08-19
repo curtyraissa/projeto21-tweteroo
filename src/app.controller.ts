@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body,  HttpException, HttpStatus, HttpCode  } from '@nestjs/common';
+import { Controller, Get, Post, Body,  HttpException, HttpStatus, HttpCode, Query  } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SignupDTO } from './dto/signup.dto';
 import { TweetDTO } from './dto/tweet.dto';
+import { Tweet } from './entities/tweet.entity';
 
 @Controller()
 export class AppController {
@@ -35,6 +36,19 @@ export class AppController {
       }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Get('/tweets')
+  getTweets(@Query('page') page?: number): Tweet[] {
+    if (page && (isNaN(page) || page < 1)) {
+      throw new HttpException('Informe uma página válida!', HttpStatus.BAD_REQUEST);
+    }
+
+    const tweetsPerPage = 15;
+    const startIndex = page ? (page - 1) * tweetsPerPage : 0;
+    const endIndex = page ? startIndex + tweetsPerPage : undefined;
+
+    return this.appService.getTweets(startIndex, endIndex);
   }
 
 }

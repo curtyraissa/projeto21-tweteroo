@@ -45,6 +45,15 @@ let AppController = exports.AppController = class AppController {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
         }
     }
+    getTweets(page) {
+        if (page && (isNaN(page) || page < 1)) {
+            throw new common_1.HttpException('Informe uma página válida!', common_1.HttpStatus.BAD_REQUEST);
+        }
+        const tweetsPerPage = 15;
+        const startIndex = page ? (page - 1) * tweetsPerPage : 0;
+        const endIndex = page ? startIndex + tweetsPerPage : undefined;
+        return this.appService.getTweets(startIndex, endIndex);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -68,6 +77,13 @@ __decorate([
     __metadata("design:paramtypes", [tweet_dto_1.TweetDTO]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "createTweet", null);
+__decorate([
+    (0, common_1.Get)('/tweets'),
+    __param(0, (0, common_1.Query)('page')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Array)
+], AppController.prototype, "getTweets", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

@@ -38,6 +38,20 @@ let AppService = exports.AppService = class AppService {
         }
         this.tweets.push(new tweet_entity_1.Tweet(username, tweet));
     }
+    getTweets(startIndex, endIndex) {
+        let tweetsToShow = this.tweets.slice().reverse();
+        if (endIndex) {
+            tweetsToShow = tweetsToShow.slice(startIndex, endIndex);
+        }
+        else {
+            tweetsToShow = tweetsToShow.slice(0, 15);
+        }
+        const completeTweets = tweetsToShow.map((tweet) => {
+            const user = this.users.find((u) => u.username === tweet.username);
+            return { ...tweet, avatar: user?.avatar };
+        });
+        return completeTweets;
+    }
 };
 exports.AppService = AppService = __decorate([
     (0, common_1.Injectable)()

@@ -34,7 +34,19 @@ export class AppService {
     this.tweets.push(new Tweet(username, tweet));
   }
 
-  // getTweets(): { username: string; tweet: string }[] {
-  //   return this.tweets;
-  // }
+  getTweets(startIndex: number, endIndex?: number): Tweet[] {
+    let tweetsToShow = this.tweets.slice().reverse(); // Inverte a ordem para exibir os mais recentes primeiro
+    if (endIndex) {
+      tweetsToShow = tweetsToShow.slice(startIndex, endIndex);
+    } else {
+      tweetsToShow = tweetsToShow.slice(0, 15);
+    }
+
+    const completeTweets = tweetsToShow.map((tweet) => {
+      const user = this.users.find((u) => u.username === tweet.username);
+      return { ...tweet, avatar: user?.avatar };
+    });
+
+    return completeTweets;
+  }
 }
