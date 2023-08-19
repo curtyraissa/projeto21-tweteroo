@@ -16,10 +16,12 @@ class SignupDTO {
 exports.SignupDTO = SignupDTO;
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)({ message: "All fields are required!" }),
     __metadata("design:type", String)
 ], SignupDTO.prototype, "username", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)({ message: "All fields are required!" }),
     __metadata("design:type", String)
 ], SignupDTO.prototype, "avatar", void 0);
 //# sourceMappingURL=signup.dto.js.map
