@@ -39,6 +39,9 @@ let AppService = exports.AppService = class AppService {
         this.tweets.push(new tweet_entity_1.Tweet(username, tweet));
     }
     getTweets(startIndex, endIndex) {
+        if (startIndex < 0) {
+            throw new Error('Invalid start index.');
+        }
         let tweetsToShow = this.tweets.slice().reverse();
         if (endIndex) {
             tweetsToShow = tweetsToShow.slice(startIndex, endIndex);
